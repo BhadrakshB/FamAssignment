@@ -1,16 +1,48 @@
 import 'package:flutter/material.dart';
 
-class HC6Card extends StatelessWidget {
-  final String? title;
+import '../../api/models/card_model.dart';
 
-  HC6Card({required this.title});
+class HC6Card extends StatelessWidget {
+  final CardModel cardDetails;
+  final double height;
+  final bool isScrollable;
+  final bool isFullWidth;
+
+  HC6Card({
+    required this.cardDetails,
+    required this.height,
+    this.isScrollable = false,
+    this.isFullWidth = false,
+});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        title: Text(title ?? ''),
-        trailing: Icon(Icons.arrow_forward),
+    return GestureDetector(
+      child: Container(
+        height: height,
+        decoration: BoxDecoration(
+          color: cardDetails.getBackgroundColor,
+
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3),
+          child: Row(
+            children: [
+              if (cardDetails.icon != null)
+                Padding(
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: cardDetails.getIcon(isDecorationImage:false) as Widget,
+                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RichText(text: cardDetails.formattedTitle!.generateSpans()),
+                ],
+              ),
+            ],
+          )
+        ),
       ),
     );
   }

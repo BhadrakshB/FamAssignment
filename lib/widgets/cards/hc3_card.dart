@@ -34,8 +34,8 @@ class HC3Card extends StatelessWidget {
                 cardDetails.formattedTitle?.getCrossAxisAlignment ?? CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              RichText(text: buildTextSpan(cardDetails.formattedTitle!)),
-              SizedBox(height: 50),
+              RichText(text: cardDetails.formattedTitle!.generateSpans()),
+              const SizedBox(height: 50),
               ...?cardDetails.callToAction?.map((cta) {
                 return ElevatedButton(
                   onPressed: () async {
@@ -84,75 +84,5 @@ class HC3Card extends StatelessWidget {
     );
   }
 
-  TextSpan buildTextSpan(FormattedTitleModel formattedTitle) {
-    final template = formattedTitle.text ?? '';
-    final replacements = formattedTitle.entities?.map((entity) {
-          final style = TextStyle(
-            fontSize: entity?.getFontSize,
-            color: entity?.getColor,
-            fontWeight: entity?.getFontWeight,
-            fontStyle: entity?.getStyling.runtimeType == FontStyle ? entity?.getStyling : null,
-            decoration:
-                entity?.getStyling.runtimeType == TextDecoration ? entity?.getStyling : null,
-          );
-          return {entity?.text ?? '': style};
-        }).toList() ??
-        [];
-    final placeholderPattern = RegExp(r"\{\}");
-    int index = 0;
-
-    // Split the template into parts with matches and non-matches
-    List<InlineSpan> spans = [];
-    var splitList = template.split(placeholderPattern);
-    print(splitList);
-
-    template.splitMapJoin(
-      placeholderPattern,
-      onMatch: (match) {
-        // Add replacement with style
-        if (index < replacements.length) {
-          final replacement = replacements[index].keys.first;
-          final style = replacements[index].values.first;
-
-          if (replacement == "") {
-            return '';
-          }
-
-          spans.add(const WidgetSpan(
-              child: SizedBox(
-            height: 70,
-          )));
-
-          spans.add(TextSpan(
-            text: replacement,
-            style: style,
-          ));
-
-          index++;
-        }
-
-        return ''; // No actual text is added here
-      },
-      onNonMatch: (nonMatch) {
-        // Add plain text (non-placeholder text)
-        spans.add(TextSpan(
-            text: nonMatch, style: replacements.first.values.first.copyWith(color: Colors.white)));
-        return ''; // No actual text is added here
-      },
-    );
-
-    spans.removeAt(0);
-    spans.removeLast();
-    spans.insert(
-        0,
-        WidgetSpan(
-            child: SizedBox(
-          height: 100,
-        )));
-    print(spans.length);
-    print(spans);
-
-    return TextSpan(children: spans);
-  }
 }
 // The  HC3Card  class is a stateless widget that represents a card with an image and a title. It has three properties:  title ,  imageUrl , and  onLongPress . The  title  property is the title of the card, the  imageUrl  property is the URL of the image to be displayed on the card, and the  onLongPress  property is a callback that is called when the card is long-pressed.

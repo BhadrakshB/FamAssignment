@@ -65,7 +65,7 @@ class EntityModel {
   }
 
   double get getFontSize {
-    return fontSize!.toDouble();
+    return fontSize?.toDouble() ?? 16.0;
   }
 
   TextSpan get getTextSpan {

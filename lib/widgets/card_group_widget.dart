@@ -23,17 +23,22 @@ class CardGroupWidget extends StatelessWidget {
           //   return HC1Card(
           //     title: card.cards[0]?.title,
           //   );
-          case 'HC3':
-            return HC3Card(
+          // case 'HC3':
+          //   return HC3Card(
+          //     cardDetails: card.cards[0]!,
+          //     height: card.height!.toDouble(),
+          //     isFullWidth: card.isFullWidth!,
+          //     isScrollable: card.isScrollable!,
+          //   );
+          // case 'HC5':
+          //   return HC5Card(imageUrl: card.cards[0]?.backgroundImage?.imageUrl);
+          case 'HC6':
+            return HC6Card(
               cardDetails: card.cards[0]!,
               height: card.height!.toDouble(),
               isFullWidth: card.isFullWidth!,
               isScrollable: card.isScrollable!,
             );
-          // case 'HC5':
-          //   return HC5Card(imageUrl: card.cards[0]?.backgroundImage?.imageUrl);
-          // case 'HC6':
-          //   return HC6Card(title: card.cards[0]?.title);
           // case 'HC9':
           //   return HC9Card(
           //     imageUrl: card.cards[0]?.backgroundImage?.imageUrl,

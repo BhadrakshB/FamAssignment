@@ -71,6 +71,17 @@ class CardModel {
     return backgroundColor == null ? Color(0xFF454AA6) : Color(int.parse(backgroundColor!.substring(1, 7), radix: 16) + 0xFF000000);
   }
 
+  Object getIcon({bool isDecorationImage = true}) {
+    try {
+      if (icon?.imageType == 'ext') {
+        return isDecorationImage ? NetworkImage(icon?.imageUrl! ?? "") : Image.network(icon?.imageUrl! ?? "", errorBuilder: (context, error, stackTrace) => Image.asset('assets/images/placeholder.png'),);
+      } else {
+        return isDecorationImage ? AssetImage(icon?.assetType! ?? "") : Image.asset(icon?.assetType! ?? "");
+      }
+    } catch (e) {
+      return isDecorationImage ? const AssetImage('/assets/images/placeholder.png') : Image.asset('/assets/images/placeholder.png');
+    }
+  }
 
 
 }

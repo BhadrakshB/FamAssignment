@@ -17,12 +17,10 @@ class FormattedTitleModel {
     return FormattedTitleModel(
       text: json?['text'],
       align: json?['align'],
-      entities: (json?['entities'] as List?)
-          ?.map((entity) => EntityModel.fromJson(entity))
-          .toList(),
+      entities:
+          (json?['entities'] as List?)?.map((entity) => EntityModel.fromJson(entity)).toList(),
     );
   }
-
 
   CrossAxisAlignment get getCrossAxisAlignment {
     switch (align) {
@@ -37,6 +35,92 @@ class FormattedTitleModel {
     }
   }
 
+  InlineSpan generateSpans() {
+    final template = text ?? '';
+    final replacements = entities?.map((entity) {
+          final style = TextStyle(
+            fontSize: entity?.getFontSize,
+            color: entity?.getColor,
+            fontWeight: entity?.getFontWeight,
+            fontStyle: entity?.getStyling.runtimeType == FontStyle ? entity?.getStyling : null,
+            decoration:
+                entity?.getStyling.runtimeType == TextDecoration ? entity?.getStyling : null,
+          );
+          return {entity?.text ?? '': style};
+        }).toList() ??
+        [];
+    final placeholderPattern = RegExp(r"\{\}");
+    int index = 0;
+    print(replacements);
+    // Split the template into parts with matches and non-matches
+    List<InlineSpan> spans = [];
+    print("TEXT: ${text == " "}");
+
+    (text != " " ) ?
+        template.splitMapJoin(
+      placeholderPattern,
+      onMatch: (match) {
+        // Add replacement with style
+        if (index < replacements.length) {
+          final replacement = replacements[index].keys.first;
+          final style = replacements[index].values.first;
+
+          if (replacement == "") {
+            return '';
+          }
+
+          spans.add(const WidgetSpan(
+              child: SizedBox(
+            height: 70,
+          )));
+
+          spans.add(TextSpan(
+            text: replacement,
+            style: style,
+          ));
+
+          index++;
+        }
+
+        return ''; // No actual text is added here
+      },
+      onNonMatch: (nonMatch) {
+        // Add plain text (non-placeholder text)
+        spans.add(TextSpan(
+            text: nonMatch, style: replacements.first.values.first.copyWith(color: Colors.white)));
+        return ''; // No actual text is added here
+      },
+    ) : replacements.forEach((replacement) {
+      final style = replacement.values.first;
+      final text = replacement.keys.first;
+
+      spans.add(TextSpan(
+        text: text,
+        style: style,
+      ));
+    });
 
 
+
+    print(spans.length);
+    print(spans);
+    if (spans.length > 3){
+      spans.removeAt(0);
+      spans.removeLast();
+    }
+
+    print(spans.length);
+    print(spans);
+    // spans.insert(
+    //   0,
+    //   const WidgetSpan(
+    //     child: SizedBox(
+    //       height: 100,
+    //     ),
+    //   ),
+    // );
+
+
+    return TextSpan(children: spans);
+  }
 }
