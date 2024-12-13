@@ -32,7 +32,7 @@ class EntityModel {
     if (color?.startsWith("#") ?? false) {
       return Color(int.parse(color!.substring(1, 7), radix: 16) + 0xFF000000);
     } else {
-      return Colors.black;
+      return Colors.white;
     }
   }
 
@@ -56,8 +56,8 @@ class EntityModel {
       case 'normal':
         return FontStyle.normal;
 
-      case 'underline':
-        return TextDecoration.underline;
+      // case 'underline':
+      //   return TextDecoration.underline;
 
       default:
         return FontStyle.normal;
@@ -66,6 +66,19 @@ class EntityModel {
 
   double get getFontSize {
     return fontSize!.toDouble();
+  }
+
+  TextSpan get getTextSpan {
+    return TextSpan(
+      text: text,
+      style: TextStyle(
+        fontSize: getFontSize,
+        fontWeight: getFontWeight,
+        color: getColor,
+        fontStyle: getStyling.runtimeType == FontStyle ? getStyling : null,
+        decoration: getStyling.runtimeType == TextDecoration ? getStyling : null,
+      ),
+    );
   }
 
 

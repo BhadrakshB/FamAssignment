@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 import 'background_image_model.dart';
 import 'call_to_action_model.dart';
 import 'formatted_title_model.dart';
@@ -63,5 +66,12 @@ class CardModel {
       isInternal: json?['is_internal'],
     );
   }
+
+  Color get getBackgroundColor {
+    return backgroundColor == null ? Color(0xFF454AA6) : Color(int.parse(backgroundColor!.substring(1, 7), radix: 16) + 0xFF000000);
+  }
+
+
+
 }
 // The  EntityModel  class is a model class that represents an entity. It has three properties:  entityType ,  entityId , and  actionUrl . The  entityType  property is the type of the entity, the  entityId  property is the ID of the entity, and the  actionUrl  property is the URL for performing an action related to the entity. The  EntityModel  class also has a  factory  constructor that creates an instance of the class from a JSON object.

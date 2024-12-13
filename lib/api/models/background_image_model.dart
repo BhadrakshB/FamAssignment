@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BackgroundImageModel {
-  final String imageType;
+  final String? imageType;
   final String? imageUrl;
   final String? assetType;
   final String? webpUrl;
@@ -25,11 +25,15 @@ class BackgroundImageModel {
     );
   }
 
-  Image get getImage {
-    if (imageType == 'ext') {
-      return Image.network(imageUrl!);
-    } else {
-      return Image.network(assetType!);
+  Object getImage({bool isDecorationImage = true}) {
+    try {
+      if (imageType == 'ext') {
+        return isDecorationImage ? NetworkImage(imageUrl!) : Image.network(imageUrl!, errorBuilder: (context, error, stackTrace) => Image.asset('assets/images/placeholder.png'),);
+      } else {
+        return isDecorationImage ? AssetImage(assetType!) : Image.asset(assetType!);
+      }
+    } catch (e) {
+      return isDecorationImage ? const AssetImage('assets/images/placeholder.png') : Image.asset('assets/images/placeholder.png');
     }
   }
 }

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'entity_model.dart';
 
 class FormattedTitleModel {
@@ -20,5 +22,21 @@ class FormattedTitleModel {
           .toList(),
     );
   }
+
+
+  CrossAxisAlignment get getCrossAxisAlignment {
+    switch (align) {
+      case 'center':
+        return CrossAxisAlignment.center;
+      case 'right':
+        return CrossAxisAlignment.end;
+      case 'left':
+        return CrossAxisAlignment.start;
+      default:
+        return CrossAxisAlignment.start;
+    }
+  }
+
+
 
 }

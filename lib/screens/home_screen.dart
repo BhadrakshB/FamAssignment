@@ -40,15 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
           final cardGroups = snapshot.data!;
           final group = cardGroups[0];
-          return
-              CardGroupWidget(cards: group.hcGroups);
-          // return ListView.builder(
-          //   itemCount: cardGroups.length,
-          //   itemBuilder: (context, index) {
-          //     final ScreenCard group = cardGroups[index];
-          //     return ;
-          //   },
-          // );
+          return CardGroupWidget(cards: group.hcGroups);
         },
       ),
     );
