@@ -42,4 +42,9 @@ class CardGroup {
           .toList(),
     );
   }
+
+  @override
+  String toString() {
+    return 'CardGroup{id: $id, name: $name, designType: $designType, cardType: $cardType, isScrollable: $isScrollable, height: $height, isFullWidth: $isFullWidth, slug: $slug, level: $level, cards: $cards}';
+  }
 }

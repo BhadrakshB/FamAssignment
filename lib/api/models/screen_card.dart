@@ -36,5 +36,10 @@ class ScreenCard {
           .toList(),
     );
   }
+
+  @override
+  String toString() {
+    return 'ScreenCard{id: $id, slug: $slug, title: $title, formattedTitle: $formattedTitle, description: $description, formattedDescription: $formattedDescription, assets: $assets, hcGroups: $hcGroups}';
+  }
 }
 // The  CardGroup  class is a model class that represents a group of cards. It has three properties:  name ,  isScrollable , and  cards . The  name  property is the name of the card group, the  isScrollable  property indicates whether the card group is scrollable, and the  cards  property is a list of  CardModel  objects.

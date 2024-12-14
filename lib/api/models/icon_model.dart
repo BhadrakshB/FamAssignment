@@ -24,4 +24,9 @@ class IconModel {
       aspectRatio: json?['aspect_ratio'],
     );
   }
+
+  @override
+  String toString() {
+    return 'IconModel{imageType: $imageType, imageUrl: $imageUrl, assetType: $assetType, webpUrl: $webpUrl, aspectRatio: $aspectRatio}';
+  }
 }

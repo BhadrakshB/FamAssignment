@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 
 import 'entity_model.dart';
 
-class FormattedTitleModel {
+class FormattedTextModel {
   final String? text;
   final String? align;
   final List<EntityModel?>? entities;
 
-  FormattedTitleModel({
+  FormattedTextModel({
     required this.text,
     required this.align,
     required this.entities,
   });
 
-  factory FormattedTitleModel.fromJson(Map<String, dynamic>? json) {
-    return FormattedTitleModel(
+  factory FormattedTextModel.fromJson(Map<String, dynamic>? json) {
+    return FormattedTextModel(
       text: json?['text'],
       align: json?['align'],
       entities:
@@ -51,7 +51,7 @@ class FormattedTitleModel {
         [];
     final placeholderPattern = RegExp(r"\{\}");
     int index = 0;
-    print(replacements);
+    print("REPLACEMENTS: $replacements");
     // Split the template into parts with matches and non-matches
     List<InlineSpan> spans = [];
 
@@ -110,5 +110,11 @@ class FormattedTitleModel {
     print(spans);
 
     return TextSpan(children: spans);
+  }
+
+
+  @override
+  String toString() {
+    return 'FormattedTextModel{text: $text, align: $align, entities: $entities}';
   }
 }

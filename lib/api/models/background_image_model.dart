@@ -36,4 +36,9 @@ class BackgroundImageModel {
       return isDecorationImage ? const AssetImage('assets/images/placeholder.png') : Image.asset('assets/images/placeholder.png');
     }
   }
+
+  @override
+  String toString() {
+    return 'BackgroundImageModel{imageType: $imageType, imageUrl: $imageUrl, assetType: $assetType, webpUrl: $webpUrl, aspectRatio: $aspectRatio}';
+  }
 }

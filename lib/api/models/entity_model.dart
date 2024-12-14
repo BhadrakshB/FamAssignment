@@ -82,4 +82,9 @@ class EntityModel {
   }
 
 
+  @override
+  String toString() {
+    return 'EntityModel{text: $text, type: $type, color: $color, fontSize: $fontSize, fontStyle: $fontStyle, fontWeight: $fontWeight}';
+  }
+
 }

@@ -11,7 +11,9 @@ class CardModel {
   final String? name;
   final String? slug;
   final String? title;
-  final FormattedTitleModel? formattedTitle;
+  final FormattedTextModel? formattedTitle;
+  final String? description;
+  final FormattedTextModel? formattedDescription;
   final IconModel? icon;
   final List<String?>? positionalImages;
   final List<String?>? components;
@@ -30,6 +32,8 @@ class CardModel {
     required this.slug,
     required this.title,
     required this.formattedTitle,
+    required this.description,
+    required this.formattedDescription,
     required this.icon,
     required this.positionalImages,
     required this.components,
@@ -50,7 +54,9 @@ class CardModel {
       name: json?['name'],
       slug: json?['slug'],
       title: json?['title'],
-      formattedTitle: FormattedTitleModel.fromJson(json?['formatted_title']),
+      formattedTitle: FormattedTextModel.fromJson(json?['formatted_title']),
+      description: json?['description'],
+      formattedDescription: FormattedTextModel.fromJson(json?['formatted_description']),
       icon: json?['icon'] != null ? IconModel.fromJson(json?['icon']) : null,
       positionalImages: List<String?>.from(json?['positional_images']),
       components: List<String?>.from(json?['components']),
@@ -84,5 +90,9 @@ class CardModel {
   }
 
 
+  @override
+  String toString() {
+    return 'CardModel{id: $id, name: $name, slug: $slug, title: $title, formattedTitle: $formattedTitle, description: $description, formattedDescription: $formattedDescription, icon: $icon, positionalImages: $positionalImages, components: $components, url: $url, backgroundColor: $backgroundColor, iconSize: $iconSize, backgroundImage: $backgroundImage, callToAction: $callToAction, isDisabled: $isDisabled, isShareable: $isShareable, isInternal: $isInternal}';
+  }
 }
 // The  EntityModel  class is a model class that represents an entity. It has three properties:  entityType ,  entityId , and  actionUrl . The  entityType  property is the type of the entity, the  entityId  property is the ID of the entity, and the  actionUrl  property is the URL for performing an action related to the entity. The  EntityModel  class also has a  factory  constructor that creates an instance of the class from a JSON object.

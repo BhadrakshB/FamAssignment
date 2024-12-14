@@ -35,4 +35,10 @@ class CallToActionModel {
       return Colors.black;
     }
   }
+
+  @override
+  String toString() {
+    return 'CallToActionModel{text: $text, type: $type, backgroundColor: $backgroundColor, isCircular: $isCircular, isSecondary: $isSecondary, strokeWidth: $strokeWidth}';
+  }
+
 }
