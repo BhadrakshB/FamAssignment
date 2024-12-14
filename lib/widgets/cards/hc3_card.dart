@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../api/models/card_model.dart';
-import '../../api/models/formatted_title_model.dart';
+import '../../api/models/formatted_text_model.dart';
 
 class HC3Card extends StatelessWidget {
   final CardModel cardDetails;

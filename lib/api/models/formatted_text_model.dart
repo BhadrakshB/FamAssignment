@@ -36,27 +36,38 @@ class FormattedTextModel {
   }
 
   InlineSpan generateSpans() {
-    final template = text ?? '';
+    final template = text ?? ' ';
     final replacements = entities?.map((entity) {
           final style = TextStyle(
-            fontSize: entity?.getFontSize,
-            color: entity?.getColor,
-            fontWeight: entity?.getFontWeight,
-            fontStyle: entity?.getStyling.runtimeType == FontStyle ? entity?.getStyling : null,
-            decoration:
-                entity?.getStyling.runtimeType == TextDecoration ? entity?.getStyling : null,
+            fontSize: entity!.getFontSize,
+            color: entity.getColor,
+            fontWeight: entity.getFontFamily,
+            fontStyle: entity.getStyling.runtimeType == FontStyle ? entity.getStyling : null,
+            decoration: entity.getStyling.runtimeType == TextDecoration ? entity.getStyling : null,
           );
-          return {entity?.text ?? '': style};
+
+          return {entity.text ?? '': style};
         }).toList() ??
         [];
+
     final placeholderPattern = RegExp(r"\{\}");
     int index = 0;
-    print("REPLACEMENTS: $replacements");
     // Split the template into parts with matches and non-matches
     List<InlineSpan> spans = [];
 
-    (text != " " || text != "" ) ?
-        template.splitMapJoin(
+    if (template == "" || template == " ") {
+      replacements.forEach(
+        (replacement) => spans.add(
+          TextSpan(
+            text: replacement.keys.first,
+            style: replacement.values.first,
+          ),
+        ),
+      );
+      return TextSpan(children: spans);
+    }
+
+    template.splitMapJoin(
       placeholderPattern,
       onMatch: (match) {
         // Add replacement with style
@@ -72,6 +83,8 @@ class FormattedTextModel {
               child: SizedBox(
             height: 70,
           )));
+
+          print("REPLACEMENT: $replacement -- STYLE: $style");
 
           spans.add(TextSpan(
             text: replacement,
@@ -89,17 +102,7 @@ class FormattedTextModel {
             text: nonMatch, style: replacements.first.values.first.copyWith(color: Colors.white)));
         return ''; // No actual text is added here
       },
-    ) : replacements.forEach((replacement) {
-      final style = replacement.values.first;
-      final text = replacement.keys.first;
-
-      spans.add(TextSpan(
-        text: text,
-        style: style,
-      ));
-    });
-
-
+    );
 
     print(spans.length);
     print(spans);
@@ -111,7 +114,6 @@ class FormattedTextModel {
 
     return TextSpan(children: spans);
   }
-
 
   @override
   String toString() {

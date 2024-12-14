@@ -6,7 +6,7 @@ class EntityModel {
   final String? color;
   final int? fontSize;
   final String? fontStyle;
-  final String? fontWeight;
+  final String? fontFamily;
 
   EntityModel({
     required this.text,
@@ -14,7 +14,7 @@ class EntityModel {
     required this.color,
     required this.fontSize,
     required this.fontStyle,
-    required this.fontWeight,
+    required this.fontFamily,
   });
 
   factory EntityModel.fromJson(Map<String, dynamic>? json) {
@@ -24,26 +24,33 @@ class EntityModel {
       color: json?['color'],
       fontSize: json?['font_size'],
       fontStyle: json?['font_style'],
-      fontWeight: json?['font_weight'],
+      fontFamily: json?['font_family'],
     );
   }
 
   Color get getColor {
     if (color?.startsWith("#") ?? false) {
-      return Color(int.parse(color!.substring(1, 7), radix: 16) + 0xFF000000);
+      // Remove the '#' if it exists
+      final hex = color?.replaceAll('#', '');
+
+      // Add 'FF' for full opacity if the code is only 6 characters (RGB)
+      final validHex = hex?.length == 6 ? 'FF$hex' : hex;
+
+      return Color(int.parse(validHex!, radix: 16));
     } else {
-      return Colors.white;
+      return Colors.black;
     }
   }
 
-  FontWeight get getFontWeight {
-    switch (fontWeight) {
+  FontWeight get getFontFamily {
+    print("FONT FAMILY: $fontFamily");
+    switch (fontFamily) {
       case 'met_bold':
-        return FontWeight.bold;
+        return FontWeight.w900;
       case 'met_regular':
         return FontWeight.normal;
       case 'met_semi_bold':
-        return FontWeight.w500;
+        return FontWeight.bold;
       default:
         return FontWeight.normal;
     }
@@ -73,7 +80,7 @@ class EntityModel {
       text: text,
       style: TextStyle(
         fontSize: getFontSize,
-        fontWeight: getFontWeight,
+        fontWeight: getFontFamily,
         color: getColor,
         fontStyle: getStyling.runtimeType == FontStyle ? getStyling : null,
         decoration: getStyling.runtimeType == TextDecoration ? getStyling : null,
@@ -84,7 +91,7 @@ class EntityModel {
 
   @override
   String toString() {
-    return 'EntityModel{text: $text, type: $type, color: $color, fontSize: $fontSize, fontStyle: $fontStyle, fontWeight: $fontWeight}';
+    return 'EntityModel{text: $text, type: $type, color: $color, fontSize: $fontSize, fontStyle: $fontStyle, fontWeight: $fontFamily}';
   }
 
 }

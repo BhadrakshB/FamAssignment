@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'background_image_model.dart';
 import 'call_to_action_model.dart';
-import 'formatted_title_model.dart';
+import 'formatted_text_model.dart';
 import 'icon_model.dart';
 
 class CardModel {

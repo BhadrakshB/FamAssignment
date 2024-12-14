@@ -21,12 +21,11 @@ class CardGroupWidget extends StatelessWidget {
 
         switch (card.designType) {
           case 'HC1':
-            print("CARD: $card");
             return HC1CardBuilder(
-            cardDetails: card.cards,
-            height: card.height!.toDouble(),
-            isFullWidth: card.isFullWidth!,
-            isScrollable: card.isScrollable!,
+              cardDetails: card.cards,
+              height: card.height!.toDouble(),
+              isFullWidth: card.isFullWidth!,
+              isScrollable: card.isScrollable!,
             );
           // case 'HC3':
           //   return HC3Card(
