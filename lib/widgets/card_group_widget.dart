@@ -30,15 +30,19 @@ class CardGroupWidget extends StatelessWidget {
           //     isFullWidth: card.isFullWidth!,
           //     isScrollable: card.isScrollable!,
           //   );
-          // case 'HC5':
-          //   return HC5Card(imageUrl: card.cards[0]?.backgroundImage?.imageUrl);
-          case 'HC6':
-            return HC6Card(
+          case 'HC5':
+            return HC5Card(
               cardDetails: card.cards[0]!,
-              height: card.height!.toDouble(),
               isFullWidth: card.isFullWidth!,
               isScrollable: card.isScrollable!,
             );
+          // case 'HC6':
+          //   return HC6Card(
+          //     cardDetails: card.cards[0]!,
+          //     height: card.height!.toDouble(),
+          //     isFullWidth: card.isFullWidth!,
+          //     isScrollable: card.isScrollable!,
+          //   );
           // case 'HC9':
           //   return HC9Card(
           //     imageUrl: card.cards[0]?.backgroundImage?.imageUrl,

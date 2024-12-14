@@ -54,9 +54,8 @@ class FormattedTitleModel {
     print(replacements);
     // Split the template into parts with matches and non-matches
     List<InlineSpan> spans = [];
-    print("TEXT: ${text == " "}");
 
-    (text != " " ) ?
+    (text != " " || text != "" ) ?
         template.splitMapJoin(
       placeholderPattern,
       onMatch: (match) {
@@ -104,22 +103,11 @@ class FormattedTitleModel {
 
     print(spans.length);
     print(spans);
-    if (spans.length > 3){
-      spans.removeAt(0);
-      spans.removeLast();
-    }
+
+    spans.removeWhere((element) => element.toPlainText() == " " || element.toPlainText() == "");
 
     print(spans.length);
     print(spans);
-    // spans.insert(
-    //   0,
-    //   const WidgetSpan(
-    //     child: SizedBox(
-    //       height: 100,
-    //     ),
-    //   ),
-    // );
-
 
     return TextSpan(children: spans);
   }

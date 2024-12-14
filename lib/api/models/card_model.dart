@@ -67,8 +67,8 @@ class CardModel {
     );
   }
 
-  Color get getBackgroundColor {
-    return backgroundColor == null ? Color(0xFF454AA6) : Color(int.parse(backgroundColor!.substring(1, 7), radix: 16) + 0xFF000000);
+  Color? get getBackgroundColor {
+    return backgroundColor == null ? null : Color(int.parse(backgroundColor!.substring(1, 7), radix: 16) + 0xFF000000);
   }
 
   Object getIcon({bool isDecorationImage = true}) {

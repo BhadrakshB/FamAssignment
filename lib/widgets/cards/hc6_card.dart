@@ -31,7 +31,7 @@ class HC6Card extends StatelessWidget {
               if (cardDetails.icon != null)
                 Padding(
                   padding: const EdgeInsets.only(right: 10.0),
-                  child: cardDetails.getIcon(isDecorationImage:false) as Widget,
+                  child: AspectRatio(aspectRatio: cardDetails.icon!.aspectRatio?.toDouble() ?? 1 ,child: cardDetails.getIcon(isDecorationImage:false) as Widget)
                 ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
