@@ -73,6 +73,7 @@ class HC1Card extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("HC1Card");
     return Container(
       height: height,
       child: Card(

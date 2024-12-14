@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'background_gradient_model.dart';
 import 'background_image_model.dart';
 import 'call_to_action_model.dart';
 import 'formatted_text_model.dart';
@@ -17,6 +18,7 @@ class CardModel {
   final IconModel? icon;
   final List<String?>? positionalImages;
   final List<String?>? components;
+  final BackgroundGradientModel? backgroundGradient;
   final String? url;
   final String? backgroundColor;
   final int? iconSize;
@@ -37,6 +39,7 @@ class CardModel {
     required this.icon,
     required this.positionalImages,
     required this.components,
+    required this.backgroundGradient,
     required this.url,
     required this.backgroundColor,
     required this.iconSize,
@@ -48,7 +51,7 @@ class CardModel {
   });
 
   factory CardModel.fromJson(Map<String, dynamic>? json) {
-    print("JSON CARD MODEL: ${json?.keys}");
+    // print("JSON CARD MODEL: ${json?.keys}");
     return CardModel(
       id: json?['id'],
       name: json?['name'],
@@ -58,8 +61,9 @@ class CardModel {
       description: json?['description'],
       formattedDescription: FormattedTextModel.fromJson(json?['formatted_description']),
       icon: json?['icon'] != null ? IconModel.fromJson(json?['icon']) : null,
-      positionalImages: List<String?>.from(json?['positional_images']),
-      components: List<String?>.from(json?['components']),
+      positionalImages: json?['positional_images']?.cast<String?>(),
+      components: json?['components']?.cast<String?>(),
+      backgroundGradient: BackgroundGradientModel.fromJson(json?['bg_gradient']),
       url: json?['url'],
       backgroundColor: json?['bg_color'],
       iconSize: json?['icon_size'],

@@ -22,7 +22,6 @@ class ScreenCard {
   });
 
   factory ScreenCard.fromJson(Map<String, dynamic>? json) {
-    print("JSON SCREEN CARD: ${json?.keys}");
     return ScreenCard(
       id: json?['id'],
       slug: json?['slug'],
