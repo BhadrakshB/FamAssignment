@@ -11,8 +11,8 @@ This repository contains the implementation of the FamPay Flutter assignment, wh
 - [API Details](#api-details)
 - [Design Specifications](#design-specifications)
 - [Code Structure](#code-structure)
-- [Contributing](#contributing)
 - [License](#license)
+- [Demo](#demo)
 
 ## Project Overview
 
@@ -147,6 +147,13 @@ The project is organized into several key files:
 - `lib/contextual_card_container.dart`: Contains the main widget for rendering contextual cards.
 - `lib/models/card_model.dart`: Defines data models for parsing API responses.
 - `lib/services/api_client.dart`: Handles API calls and data fetching.
+
+## Demo
+
+
+https://github.com/user-attachments/assets/dea737f3-60bb-48dd-ab3c-646a6c50c22c
+
+
   
 Each file contains comments explaining its purpose and functionality.
 
