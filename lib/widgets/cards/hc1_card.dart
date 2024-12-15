@@ -7,7 +7,7 @@ class HC1CardBuilder extends StatelessWidget {
   final EdgeInsets cardPadding;
   final EdgeInsets cardMargin;
   final List<CardModel?> cardDetails;
-  final double height;
+  final double? height;
   final bool isScrollable;
   final bool isFullWidth;
 
