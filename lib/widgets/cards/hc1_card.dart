@@ -145,6 +145,31 @@ class HC1Card extends StatelessWidget {
                     ],
                   ),
                 ),
+                ...?cardDetails.callToAction?.map((cta) {
+                  return ElevatedButton(
+                    onPressed: () async {
+                      launchHyperlink(cardDetails.url, context);
+                    },
+                    style: ButtonStyle(
+                      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+                          const EdgeInsets.symmetric(horizontal: 50, vertical: 15)),
+                      shape: cta?.isCircular ?? false
+                          ? WidgetStateProperty.all<OutlinedBorder>(CircleBorder(
+                        side: BorderSide(width: cta?.strokeWidth!.toDouble() ?? 1),
+                      ))
+                          : WidgetStateProperty.all<OutlinedBorder>(const RoundedRectangleBorder(
+                        side: BorderSide(width: 1),
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                      )),
+                      backgroundColor:
+                      WidgetStateProperty.all<Color>(cta?.getColor ?? Colors.white),
+                    ),
+                    child: Text(
+                      cta!.text!,
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                  );
+                }),
               ],
             ),
           )),
