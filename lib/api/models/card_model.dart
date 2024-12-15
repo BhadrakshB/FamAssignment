@@ -51,7 +51,6 @@ class CardModel {
   });
 
   factory CardModel.fromJson(Map<String, dynamic>? json) {
-    // print("JSON CARD MODEL: ${json?.keys}");
     return CardModel(
       id: json?['id'],
       name: json?['name'],
@@ -68,9 +67,7 @@ class CardModel {
       backgroundColor: json?['bg_color'],
       iconSize: json?['icon_size'],
       backgroundImage: BackgroundImageModel.fromJson(json?['bg_image']),
-      callToAction: (json?['cta'] as List?)
-          ?.map((cta) => CallToActionModel.fromJson(cta))
-          .toList(),
+      callToAction: (json?['cta'] as List?)?.map((cta) => CallToActionModel.fromJson(cta)).toList(),
       isDisabled: json?['is_disabled'],
       isShareable: json?['is_shareable'],
       isInternal: json?['is_internal'],
@@ -78,21 +75,42 @@ class CardModel {
   }
 
   Color? get getBackgroundColor {
-    return backgroundColor == null ? null : Color(int.parse(backgroundColor!.substring(1, 7), radix: 16) + 0xFF000000);
+    return backgroundColor == null
+        ? null
+        : Color(int.parse(backgroundColor!.substring(1, 7), radix: 16) + 0xFF000000);
   }
 
   Object getIcon({bool isDecorationImage = true}) {
     try {
       if (icon?.imageType == 'ext') {
-        return isDecorationImage ? NetworkImage(icon?.imageUrl! ?? "") : Image.network(icon?.imageUrl! ?? "", errorBuilder: (context, error, stackTrace) => Image.asset('assets/images/placeholder.png'),);
+        return isDecorationImage
+            ? NetworkImage(
+                icon?.imageUrl! ?? "",
+                scale: 1 / (iconSize?.toDouble() ?? 16),
+              )
+            : Image.network(
+                icon?.imageUrl! ?? "",
+                errorBuilder: (context, error, stackTrace) =>
+                    Image.asset('assets/images/placeholder.png'),
+                scale: 1 / (iconSize?.toDouble() ?? 16),
+              );
       } else {
-        return isDecorationImage ? AssetImage(icon?.assetType! ?? "") : Image.asset(icon?.assetType! ?? "");
+        return isDecorationImage
+            ? AssetImage(icon?.assetType! ?? "")
+            : Image.asset(
+                icon?.assetType! ?? "",
+                scale: 1 / (iconSize?.toDouble() ?? 16),
+              );
       }
     } catch (e) {
-      return isDecorationImage ? const AssetImage('/assets/images/placeholder.png') : Image.asset('/assets/images/placeholder.png');
+      return isDecorationImage
+          ? const AssetImage('/assets/images/placeholder.png')
+          : Image.asset(
+              '/assets/images/placeholder.png',
+              scale: 1 / (iconSize?.toDouble() ?? 16),
+            );
     }
   }
-
 
   @override
   String toString() {

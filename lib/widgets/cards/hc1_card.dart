@@ -19,7 +19,7 @@ class HC1CardBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isScrollable) {
+    if (!isScrollable) {
       return buildIfScrollable(context);
     } else {
       return buildIfNotScrollable();
@@ -27,8 +27,12 @@ class HC1CardBuilder extends StatelessWidget {
   }
 
   Widget buildIfScrollable(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: height,
+      margin: const EdgeInsets.only(
+        top: 15,
+        bottom: 15,
+      ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -49,17 +53,24 @@ class HC1CardBuilder extends StatelessWidget {
   }
 
   Widget buildIfNotScrollable() {
-    return Row(
-      children: cardDetails
-          .map((card) => card != null
-              ? Expanded(
-                  child: HC1Card(
-                    height: height,
-                    cardDetails: card,
-                  ),
-                )
-              : const SizedBox.shrink())
-          .toList(),
+    return Container(
+      height: height,
+      margin: const EdgeInsets.only(
+        top: 15,
+        bottom: 15,
+      ),
+      child: Row(
+        children: cardDetails.sublist(0,2)
+            .map((card) => card != null
+                ? Expanded(
+                    child: HC1Card(
+                      height: height,
+                      cardDetails: card,
+                    ),
+                  )
+                : const SizedBox.shrink())
+            .toList(),
+      ),
     );
   }
 }
@@ -73,69 +84,78 @@ class HC1Card extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("HC1Card");
     return Container(
       height: height,
-      child: Card(
+      margin: const EdgeInsets.only(
+        left: 8,
+        right: 8,
+      ),
+      padding: const EdgeInsets.symmetric(
+        vertical: 12,
+        horizontal: 15,
+      ),
+      decoration: BoxDecoration(
         color: cardDetails.getBackgroundColor,
-        child: InkWell(
-            onTap: () async {
-              try {
-                Uri uri = Uri.parse(cardDetails.url ?? "");
-                if (await canLaunchUrl(uri)) {
-                  launchUrl(uri);
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Could not launch ${uri.toString()}'),
-                    ),
-                  );
-                }
-              } catch (e) {
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: InkWell(
+          onTap: () async {
+            if (cardDetails.url == null) {
+              return;
+            }
+            try {
+              Uri uri = Uri.parse(cardDetails.url ?? "");
+              if (await canLaunchUrl(uri)) {
+                launchUrl(uri);
+              } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('Could not launch ${cardDetails.url}'),
+                    content: Text('Could not launch ${uri.toString()}'),
                   ),
                 );
               }
-            },
-            child: Padding(
-
-              padding: const EdgeInsets.only(right: 8),
-              child: Row(
-                spacing: 14,
-                children: [
-
-                  cardDetails.icon != null
-                      ? cardDetails.icon!.getImage(isDecorationImage: false) as Widget
-                      : const SizedBox.shrink(),
-                  Flexible(
-                    child: Column(
-                      crossAxisAlignment: cardDetails.formattedTitle?.getCrossAxisAlignment ??
-                          CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        RichText(
-                          text: cardDetails.formattedTitle!.generateSpans(),
-                          softWrap: true,
-                          overflow: TextOverflow.clip,
-                          maxLines: 1,
-                        ),
-                        cardDetails.description != null
-                            ? RichText(
-                                text: cardDetails.formattedDescription!.generateSpans(),
-                                softWrap: true,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              )
-                            : const SizedBox.shrink(),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            )),
-      ),
+            } catch (e) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Could not launch ${cardDetails.url}'),
+                ),
+              );
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: Row(
+              spacing: 14,
+              children: [
+                cardDetails.icon != null
+                    ? cardDetails.getIcon(isDecorationImage: false) as Widget
+                    : const SizedBox.shrink(),
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: cardDetails.formattedTitle?.getCrossAxisAlignment ??
+                        CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      RichText(
+                        text: cardDetails.formattedTitle!.generateSpans(),
+                        softWrap: true,
+                        overflow: TextOverflow.clip,
+                        maxLines: 1,
+                      ),
+                      cardDetails.description != null
+                          ? RichText(
+                              text: cardDetails.formattedDescription!.generateSpans(),
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            )
+                          : const SizedBox.shrink(),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          )),
     );
   }
 }

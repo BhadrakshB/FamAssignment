@@ -95,7 +95,7 @@ class HC9Card extends StatelessWidget {
                 children: [
 
                   cardDetails.icon != null
-                      ? cardDetails.icon!.getImage(isDecorationImage: false) as Widget
+                      ? cardDetails.getIcon(isDecorationImage: false) as Widget
                       : const SizedBox.shrink(),
                   Flexible(
                     child: Column(
