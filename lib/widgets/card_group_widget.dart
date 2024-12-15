@@ -48,14 +48,13 @@ class CardGroupWidget extends StatelessWidget {
               isFullWidth: card.isFullWidth!,
               isScrollable: card.isScrollable!,
             );
-          // case 'HC9':
-          //   print("HC9");
-          //   return HC9CardBuilder(
-          //     cardDetails: card.cards,
-          //     height: card.height!.toDouble(),
-          //     isFullWidth: card.isFullWidth!,
-          //     isScrollable: card.isScrollable!,
-          //   );
+          case 'HC9':
+            return HC9CardBuilder(
+              cardDetails: card.cards,
+              height: card.height!.toDouble(),
+              isFullWidth: card.isFullWidth!,
+              isScrollable: card.isScrollable!,
+            );
           default:
             return SizedBox.shrink();
         }

@@ -1,3 +1,4 @@
+import 'package:fam_assignment/utils/funtions.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -8,6 +9,9 @@ class HC9CardBuilder extends StatelessWidget {
   final double height;
   final bool isScrollable;
   final bool isFullWidth;
+  final double cardSpacing;
+  final EdgeInsets cardPadding;
+  final EdgeInsets cardMargin;
 
   const HC9CardBuilder({
     super.key,
@@ -15,6 +19,15 @@ class HC9CardBuilder extends StatelessWidget {
     required this.height,
     this.isScrollable = false,
     this.isFullWidth = false,
+    this.cardSpacing = 15,
+    this.cardPadding = const EdgeInsets.symmetric(
+      vertical: 8,
+    ),
+    this.cardMargin = const EdgeInsets.only(
+      top: 8,
+      bottom: 8,
+      left: 10,
+    ),
   });
 
   @override
@@ -23,23 +36,27 @@ class HC9CardBuilder extends StatelessWidget {
   }
 
   Widget buildScrollable(BuildContext context) {
-    double spacing = 15;
     return Container(
       height: height,
+
+      margin: cardMargin.copyWith(left: 0, right: 0),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          spacing: spacing,
+          spacing: cardSpacing,
           children: cardDetails
               .map((card) => card != null
-              ? SizedBox(
-            child: HC9Card(
-              height: height,
-              cardDetails: card,
-            ),
-          )
-              : const SizedBox.shrink())
-              .toList()..insert(0, SizedBox(width: 0))..insert(cardDetails.length + 1 , SizedBox(width: 21)),
+                  ? SizedBox(
+                      width: isFullWidth ? MediaQuery.of(context).size.width : null,
+                      child: HC9Card(
+                        height: height,
+                        cardDetails: card,
+                      ),
+                    )
+                  : const SizedBox.shrink())
+              .toList()
+            ..insert(0, const SizedBox(width: 0))
+            ..insert(cardDetails.length + 1, const SizedBox(width: 10)),
         ),
       ),
     );
@@ -63,37 +80,20 @@ class HC9Card extends StatelessWidget {
           border: Border.all(width: 0),
           borderRadius: BorderRadius.circular(8),
           gradient: cardDetails.backgroundGradient?.getGradient,
-          image: DecorationImage(image: cardDetails.backgroundImage?.getImage(isDecorationImage: true) as ImageProvider<Object>),
+          image: DecorationImage(
+              image: cardDetails.backgroundImage?.getImage(isDecorationImage: true)
+                  as ImageProvider<Object>),
         ),
         height: height,
         child: InkWell(
             onTap: () async {
-              try {
-                Uri uri = Uri.parse(cardDetails.url ?? "");
-                if (await canLaunchUrl(uri)) {
-                  launchUrl(uri);
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Could not launch ${uri.toString()}'),
-                    ),
-                  );
-                }
-              } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Could not launch ${cardDetails.url}'),
-                  ),
-                );
-              }
+              launchHyperlink(cardDetails.url, context);
             },
             child: Padding(
-
               padding: const EdgeInsets.only(right: 8),
               child: Row(
                 spacing: 14,
                 children: [
-
                   cardDetails.icon != null
                       ? cardDetails.getIcon(isDecorationImage: false) as Widget
                       : const SizedBox.shrink(),
@@ -111,11 +111,11 @@ class HC9Card extends StatelessWidget {
                         ),
                         cardDetails.description != null
                             ? RichText(
-                          text: cardDetails.formattedDescription!.generateSpans(),
-                          softWrap: true,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        )
+                                text: cardDetails.formattedDescription!.generateSpans(),
+                                softWrap: true,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              )
                             : const SizedBox.shrink(),
                       ],
                     ),

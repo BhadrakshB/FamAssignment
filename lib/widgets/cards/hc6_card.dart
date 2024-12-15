@@ -32,7 +32,7 @@ class HC6CardBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("Height: $height");
-    if (!isScrollable) {
+    if (isScrollable) {
       return buildIfScrollable(context);
     } else {
       return buildIfNotScrollable();
@@ -40,7 +40,7 @@ class HC6CardBuilder extends StatelessWidget {
   }
 
   Widget buildIfScrollable(BuildContext context) {
-    cardDetails.insert(0, cardDetails.elementAt(0)); // : TO CHECK FOR SCROLLABILITY IF NEEDED
+    // cardDetails.insert(0, cardDetails.elementAt(0)); // : TO CHECK FOR SCROLLABILITY IF NEEDED
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
