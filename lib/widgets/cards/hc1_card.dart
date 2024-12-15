@@ -27,6 +27,7 @@ class HC1CardBuilder extends StatelessWidget {
       top: 8,
       bottom: 8,
       left: 10,
+      right: 10,
     ),
   });
 
@@ -42,7 +43,7 @@ class HC1CardBuilder extends StatelessWidget {
   Widget buildIfScrollable(BuildContext context) {
     return Container(
       height: height,
-      margin: cardMargin.copyWith(left:0,right:0),
+      margin: cardMargin.copyWith(left: 0, right: 0),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -51,8 +52,8 @@ class HC1CardBuilder extends StatelessWidget {
                   ? HC1Card(
                       height: height,
                       cardDetails: card,
-            padding: cardPadding,
-            isScrollable: true,
+                      padding: cardPadding,
+                      isScrollable: true,
                     )
                   : const SizedBox.shrink())
               .toList(),
@@ -68,7 +69,6 @@ class HC1CardBuilder extends StatelessWidget {
       child: Row(
         spacing: cardSpacing,
         children: cardDetails
-            .sublist(0, 2)
             .map((card) => card != null
                 ? Expanded(
                     child: HC1Card(
@@ -86,20 +86,24 @@ class HC1CardBuilder extends StatelessWidget {
 // The  HC1Card  class is a stateless widget that represents a card with a title and description. It takes two required parameters:  title  and  description . The  build  method returns a  Card  widget with a  ListTile  child that displays the title and description.
 
 class HC1Card extends StatelessWidget {
-
   final CardModel cardDetails;
   final double? height;
   final EdgeInsets padding;
   final bool isScrollable;
 
-  const HC1Card({super.key, required this.cardDetails, required this.height, required this.padding, this.isScrollable = false});
+  const HC1Card({
+    super.key,
+    required this.cardDetails,
+    required this.height,
+    required this.padding,
+    this.isScrollable = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: height,
-      padding: padding,
-      margin: isScrollable ? EdgeInsets.only(left: 10, right: 10) : EdgeInsets.zero,
+      margin: isScrollable ? const EdgeInsets.only(left: 10, right: 10) : EdgeInsets.zero,
       decoration: BoxDecoration(
         color: cardDetails.getBackgroundColor,
         borderRadius: BorderRadius.circular(8),
@@ -109,7 +113,7 @@ class HC1Card extends StatelessWidget {
             launchHyperlink(cardDetails.url, context);
           },
           child: Padding(
-            padding: const EdgeInsets.only(left: 8, right: 8),
+            padding: padding.copyWith(left: 10, right: 10),
             child: Row(
               spacing: 14,
               mainAxisSize: MainAxisSize.min,
@@ -139,7 +143,7 @@ class HC1Card extends StatelessWidget {
                           : const SizedBox.shrink(),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           )),
