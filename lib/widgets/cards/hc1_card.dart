@@ -22,7 +22,6 @@ class HC1CardBuilder extends StatelessWidget {
     this.cardSpacing = 8,
     this.cardPadding = const EdgeInsets.symmetric(
       vertical: 12,
-      horizontal: 15,
     ),
     this.cardMargin = const EdgeInsets.only(
       top: 8,
@@ -43,17 +42,17 @@ class HC1CardBuilder extends StatelessWidget {
   Widget buildIfScrollable(BuildContext context) {
     return Container(
       height: height,
-      margin: cardMargin,
+      margin: cardMargin.copyWith(left:0,right:0),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          spacing: cardSpacing,
           children: cardDetails
               .map((card) => card != null
                   ? HC1Card(
                       height: height,
                       cardDetails: card,
             padding: cardPadding,
+            isScrollable: true,
                     )
                   : const SizedBox.shrink())
               .toList(),
@@ -87,17 +86,20 @@ class HC1CardBuilder extends StatelessWidget {
 // The  HC1Card  class is a stateless widget that represents a card with a title and description. It takes two required parameters:  title  and  description . The  build  method returns a  Card  widget with a  ListTile  child that displays the title and description.
 
 class HC1Card extends StatelessWidget {
-  final CardModel cardDetails;
-  final double height;
-  final EdgeInsets padding;
 
-  const HC1Card({super.key, required this.cardDetails, required this.height, required this.padding});
+  final CardModel cardDetails;
+  final double? height;
+  final EdgeInsets padding;
+  final bool isScrollable;
+
+  const HC1Card({super.key, required this.cardDetails, required this.height, required this.padding, this.isScrollable = false});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: height,
       padding: padding,
+      margin: isScrollable ? EdgeInsets.only(left: 10, right: 10) : EdgeInsets.zero,
       decoration: BoxDecoration(
         color: cardDetails.getBackgroundColor,
         borderRadius: BorderRadius.circular(8),
@@ -107,7 +109,7 @@ class HC1Card extends StatelessWidget {
             launchHyperlink(cardDetails.url, context);
           },
           child: Padding(
-            padding: const EdgeInsets.only(right: 8),
+            padding: const EdgeInsets.only(left: 8, right: 8),
             child: Row(
               spacing: 14,
               mainAxisSize: MainAxisSize.min,
