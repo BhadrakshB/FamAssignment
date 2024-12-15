@@ -8,16 +8,16 @@ import 'cards/hc5_card.dart';
 import 'cards/hc6_card.dart';
 import 'cards/hc9_card.dart';
 
-class CardGroupWidget extends StatefulWidget {
+class ContextualCardContainer extends StatefulWidget {
   final List cards;
 
-  CardGroupWidget({required this.cards});
+  ContextualCardContainer({required this.cards});
 
   @override
-  State<CardGroupWidget> createState() => _CardGroupWidgetState();
+  State<ContextualCardContainer> createState() => _ContextualCardContainerState();
 }
 
-class _CardGroupWidgetState extends State<CardGroupWidget> {
+class _ContextualCardContainerState extends State<ContextualCardContainer> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(

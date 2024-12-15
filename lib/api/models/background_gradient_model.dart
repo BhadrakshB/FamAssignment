@@ -20,19 +20,25 @@ class BackgroundGradientModel {
 
   dynamic get getGradient {
     try {
-      // Convert angle to radians
-      double angleInRadians = angle * (pi / 180);
+      if (colors != null) {
+        print('Angle: $angle');
+        // Convert angle to radians
+        double angleInRadians = angle * (pi / 180);
 
-      // Calculate the start and end points
-      double x = cos(angleInRadians);
-      double y = sin(angleInRadians);
+        // Calculate the start and end points
+        double x = cos(angleInRadians);
+        double y = sin(angleInRadians);
 
-      return LinearGradient(
-        begin: Alignment(x, -y),
-        end: Alignment(-x, y),
-        colors: (colors??['#000000']).map((color) => color!.toColors).toList(),
-      );
+        return LinearGradient(
+          begin: Alignment(x, -y),
+          end: Alignment(-x, y),
+          colors: (colors)!.map((color) => color!.toColors).toList(),
+        );
+      } else {
+        return null;
+      }
     } catch (e) {
+      print('Error: $e');
       return const LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,

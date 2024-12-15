@@ -37,6 +37,10 @@ class BackgroundImageModel {
     }
   }
 
+  bool isNull() {
+    return imageUrl == null && assetType == null && webpUrl == null && aspectRatio == null && imageType == null;
+  }
+
   @override
   String toString() {
     return 'BackgroundImageModel{imageType: $imageType, imageUrl: $imageUrl, assetType: $assetType, webpUrl: $webpUrl, aspectRatio: $aspectRatio}';

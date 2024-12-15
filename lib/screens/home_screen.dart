@@ -2,7 +2,7 @@ import 'package:fam_assignment/utils/storage_utils.dart';
 import 'package:flutter/material.dart';
 import '../api/api_client.dart';
 import '../api/models/screen_card.dart';
-import '../widgets/card_group_widget.dart';
+import '../widgets/contextual_card_container.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               StorageUtil.removeAllDismissCard();
             },
-            child: Text("Refresh Dismiss Storage"),
+            child: const Text("Refresh Dismiss Storage"), // This button is to text the dismiss feature. Will not be included during production
           ),
         ],
       ),
@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             final cardGroups = snapshot.data!;
             final group = cardGroups[0];
-            return CardGroupWidget(cards: group.hcGroups);
+            return ContextualCardContainer(cards: group.hcGroups);
           },
         ),
       ),

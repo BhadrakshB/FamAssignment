@@ -67,7 +67,7 @@ class _HC3CardBuilderState extends State<HC3CardBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.isScrollable) {
+    if (!widget.isScrollable) {
       return buildIfScrollable(context);
     } else {
       return buildIfNotScrollable();
@@ -75,7 +75,7 @@ class _HC3CardBuilderState extends State<HC3CardBuilder> {
   }
 
   Widget buildIfScrollable(BuildContext context) {
-    // cardDetails.insert(0, cardDetails.elementAt(0)); // : TO CHECK FOR SCROLLABILITY IF NEEDED
+    // widget.cardDetails.insert(0, widget.cardDetails.elementAt(0)); // : TO CHECK FOR SCROLLABILITY IF NEEDED
     if (widget.cardDetails.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -88,7 +88,7 @@ class _HC3CardBuilderState extends State<HC3CardBuilder> {
           children: widget.cardDetails.map((card) {
             return card != null
                 ? SizedBox(
-                    width: widget.isFullWidth ? MediaQuery.of(context).size.width : null,
+                    width: MediaQuery.of(context).size.width,
                     child: HC3Card(
                       isScrollable: true,
                       dismissCard: () {
@@ -305,7 +305,8 @@ class _HC3CardState extends State<HC3Card> with SingleTickerProviderStateMixin {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 color: widget.cardDetails.getBackgroundColor,
-                image: DecorationImage(
+                gradient: widget.cardDetails.backgroundGradient?.getGradient,
+                image: widget.cardDetails.backgroundImage?.isNull() ?? false ? null : DecorationImage(
                   image: widget.cardDetails.backgroundImage!.getImage() as ImageProvider<Object>,
                   fit: BoxFit.cover,
                   alignment: Alignment.center,
@@ -322,6 +323,13 @@ class _HC3CardState extends State<HC3Card> with SingleTickerProviderStateMixin {
                       softWrap: true,
                     ),
                   ),
+                  if (widget.cardDetails.formattedDescription?.text != null) ...[
+                    const SizedBox(height: 8),
+                    RichText(
+                      text: widget.cardDetails.formattedDescription!.generateSpans(),
+                      softWrap: false,
+                    )
+                  ],
                   const SizedBox(height: 50),
                   ...?widget.cardDetails.callToAction?.map((cta) {
                     return ElevatedButton(

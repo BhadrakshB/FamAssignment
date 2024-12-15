@@ -98,6 +98,7 @@ class HC6Card extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Card Details: ${cardDetails.backgroundImage}");
     return GestureDetector(
       onTap: () {
         launchHyperlink(cardDetails.url, context);
@@ -117,7 +118,13 @@ class HC6Card extends StatelessWidget {
               ),
         decoration: BoxDecoration(
           color: cardDetails.getBackgroundColor,
+          gradient: cardDetails.backgroundGradient?.getGradient,
           borderRadius: BorderRadius.circular(5),
+          image: cardDetails.backgroundImage?.isNull() ?? false ? null : DecorationImage(
+            image: cardDetails.backgroundImage!.getImage() as ImageProvider<Object>,
+            fit: BoxFit.cover,
+            alignment: Alignment.center,
+          ),
         ),
         child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),

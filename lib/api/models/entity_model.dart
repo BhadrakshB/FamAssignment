@@ -42,6 +42,9 @@ class EntityModel {
     }
   }
 
+  /// For time being we are using FontWeight for fontFamily
+  /// This will be changed in future to use FontFamily
+
   FontWeight get getFontFamily {
     switch (fontFamily) {
       case 'met_bold':

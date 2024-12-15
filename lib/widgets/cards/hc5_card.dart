@@ -67,7 +67,7 @@ class HC5CardBuilder extends StatelessWidget {
   }
 
   Widget buildIfNotScrollable() {
-    // cardDetails.insert(0, cardDetails.elementAt(0)); : TO CHECK FOR SCROLLABILITY IF NEEDED
+    // cardDetails.insert(0, cardDetails.elementAt(0));  // : TO CHECK FOR SCROLLABILITY IF NEEDED
     return Container(
       height: height,
       margin: cardMargin.copyWith(right: 10),
@@ -115,8 +115,12 @@ class HC5Card extends StatelessWidget {
         height: height,
         decoration: BoxDecoration(
           color: cardDetails.getBackgroundColor,
-          image: DecorationImage(
-              image: cardDetails.backgroundImage!.getImage() as ImageProvider<Object>),
+          gradient: cardDetails.backgroundGradient?.getGradient,
+          image: cardDetails.backgroundImage?.isNull() ?? false ? null : DecorationImage(
+            image: cardDetails.backgroundImage!.getImage() as ImageProvider<Object>,
+            fit: BoxFit.cover,
+            alignment: Alignment.center,
+          ),
         ),
         child: AspectRatio(
           aspectRatio: cardDetails.backgroundImage?.aspectRatio?.toDouble() ?? 16 / 9,
@@ -131,16 +135,12 @@ class HC5Card extends StatelessWidget {
                   RichText(
                     text: cardDetails.formattedTitle!.generateSpans(),
                     softWrap: true,
-                    overflow: TextOverflow.clip,
-                    maxLines: 1,
                   ),
                   if (cardDetails.formattedDescription != null) ...[
                     const SizedBox(height: 10),
                     RichText(
                       text: cardDetails.formattedDescription!.generateSpans(),
                       softWrap: true,
-                      overflow: TextOverflow.clip,
-                      maxLines: 1,
                     ),
                   ],
                   ...?cardDetails.callToAction?.map((cta) {
@@ -153,14 +153,14 @@ class HC5Card extends StatelessWidget {
                             const EdgeInsets.symmetric(horizontal: 50, vertical: 15)),
                         shape: cta?.isCircular ?? false
                             ? WidgetStateProperty.all<OutlinedBorder>(CircleBorder(
-                          side: BorderSide(width: cta?.strokeWidth!.toDouble() ?? 1),
-                        ))
+                                side: BorderSide(width: cta?.strokeWidth!.toDouble() ?? 1),
+                              ))
                             : WidgetStateProperty.all<OutlinedBorder>(const RoundedRectangleBorder(
-                          side: BorderSide(width: 1),
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                        )),
+                                side: BorderSide(width: 1),
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                              )),
                         backgroundColor:
-                        WidgetStateProperty.all<Color>(cta?.getColor ?? Colors.white),
+                            WidgetStateProperty.all<Color>(cta?.getColor ?? Colors.white),
                       ),
                       child: Text(
                         cta!.text!,

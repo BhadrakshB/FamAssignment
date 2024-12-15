@@ -38,7 +38,6 @@ class HC9CardBuilder extends StatelessWidget {
   Widget buildScrollable(BuildContext context) {
     return Container(
       height: height,
-
       margin: cardMargin.copyWith(left: 0, right: 0),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -79,9 +78,13 @@ class HC9Card extends StatelessWidget {
           border: Border.all(width: 0),
           borderRadius: BorderRadius.circular(8),
           gradient: cardDetails.backgroundGradient?.getGradient,
-          image: DecorationImage(
-              image: cardDetails.backgroundImage?.getImage(isDecorationImage: true)
-                  as ImageProvider<Object>),
+          image: cardDetails.backgroundImage?.isNull() ?? false
+              ? null
+              : DecorationImage(
+                  image: cardDetails.backgroundImage!.getImage() as ImageProvider<Object>,
+                  fit: BoxFit.cover,
+                  alignment: Alignment.center,
+                ),
         ),
         height: height,
         child: InkWell(
@@ -105,17 +108,14 @@ class HC9Card extends StatelessWidget {
                         RichText(
                           text: cardDetails.formattedTitle!.generateSpans(),
                           softWrap: true,
-                          overflow: TextOverflow.clip,
-                          maxLines: 1,
                         ),
-                        cardDetails.description != null
-                            ? RichText(
-                                text: cardDetails.formattedDescription!.generateSpans(),
-                                softWrap: true,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              )
-                            : const SizedBox.shrink(),
+                        if (cardDetails.formattedDescription?.text != null) ...[
+                          const SizedBox(height: 3),
+                          RichText(
+                            text: cardDetails.formattedDescription!.generateSpans(),
+                            softWrap: false,
+                          )
+                        ],
                       ],
                     ),
                   )

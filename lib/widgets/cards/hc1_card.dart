@@ -49,13 +49,13 @@ class HC1CardBuilder extends StatelessWidget {
               .map((card) => card != null
                   ? SizedBox(
                       width: isFullWidth ? MediaQuery.of(context).size.width : null,
-                    child: HC1Card(
+                      child: HC1Card(
                         height: height,
                         cardDetails: card,
                         padding: cardPadding,
                         isScrollable: true,
                       ),
-                  )
+                    )
                   : const SizedBox.shrink())
               .toList(),
         ),
@@ -107,7 +107,15 @@ class HC1Card extends StatelessWidget {
       margin: isScrollable ? const EdgeInsets.only(left: 10, right: 10) : EdgeInsets.zero,
       decoration: BoxDecoration(
         color: cardDetails.getBackgroundColor,
+        gradient: cardDetails.backgroundGradient?.getGradient,
         borderRadius: BorderRadius.circular(8),
+        image: cardDetails.backgroundImage?.isNull() ?? false
+            ? null
+            : DecorationImage(
+                image: cardDetails.backgroundImage!.getImage() as ImageProvider<Object>,
+                fit: BoxFit.cover,
+                alignment: Alignment.center,
+              ),
       ),
       child: GestureDetector(
           onTap: () async {
@@ -134,14 +142,15 @@ class HC1Card extends StatelessWidget {
                         overflow: TextOverflow.clip,
                         maxLines: 1,
                       ),
-                      cardDetails.description != null
-                          ? RichText(
-                              text: cardDetails.formattedDescription!.generateSpans(),
-                              softWrap: true,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            )
-                          : const SizedBox.shrink(),
+                      if (cardDetails.formattedDescription?.text != null) ...[
+                        // const SizedBox(height: 3),
+                        RichText(
+                          text: cardDetails.formattedDescription!.generateSpans(),
+                          softWrap: false,
+                          overflow: TextOverflow.clip,
+                          maxLines: 1,
+                        )
+                      ],
                     ],
                   ),
                 ),
@@ -155,14 +164,14 @@ class HC1Card extends StatelessWidget {
                           const EdgeInsets.symmetric(horizontal: 50, vertical: 15)),
                       shape: cta?.isCircular ?? false
                           ? WidgetStateProperty.all<OutlinedBorder>(CircleBorder(
-                        side: BorderSide(width: cta?.strokeWidth!.toDouble() ?? 1),
-                      ))
+                              side: BorderSide(width: cta?.strokeWidth!.toDouble() ?? 1),
+                            ))
                           : WidgetStateProperty.all<OutlinedBorder>(const RoundedRectangleBorder(
-                        side: BorderSide(width: 1),
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                      )),
+                              side: BorderSide(width: 1),
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                            )),
                       backgroundColor:
-                      WidgetStateProperty.all<Color>(cta?.getColor ?? Colors.white),
+                          WidgetStateProperty.all<Color>(cta?.getColor ?? Colors.white),
                     ),
                     child: Text(
                       cta!.text!,
