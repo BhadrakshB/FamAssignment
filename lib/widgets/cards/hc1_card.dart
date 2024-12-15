@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../api/models/card_model.dart';
+import '../../utils/funtions.dart';
 
 class HC1CardBuilder extends StatelessWidget {
+  final double cardSpacing;
+  final EdgeInsets cardPadding;
+  final EdgeInsets cardMargin;
   final List<CardModel?> cardDetails;
   final double height;
   final bool isScrollable;
@@ -15,11 +19,21 @@ class HC1CardBuilder extends StatelessWidget {
     required this.height,
     this.isScrollable = false,
     this.isFullWidth = false,
+    this.cardSpacing = 8,
+    this.cardPadding = const EdgeInsets.symmetric(
+      vertical: 12,
+      horizontal: 15,
+    ),
+    this.cardMargin = const EdgeInsets.only(
+      top: 8,
+      bottom: 8,
+      left: 10,
+    ),
   });
 
   @override
   Widget build(BuildContext context) {
-    if (!isScrollable) {
+    if (isScrollable) {
       return buildIfScrollable(context);
     } else {
       return buildIfNotScrollable();
@@ -29,21 +43,17 @@ class HC1CardBuilder extends StatelessWidget {
   Widget buildIfScrollable(BuildContext context) {
     return Container(
       height: height,
-      margin: const EdgeInsets.only(
-        top: 15,
-        bottom: 15,
-      ),
+      margin: cardMargin,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
+          spacing: cardSpacing,
           children: cardDetails
               .map((card) => card != null
-                  ? SizedBox(
-                      width: 300,
-                      child: HC1Card(
-                        height: height,
-                        cardDetails: card,
-                      ),
+                  ? HC1Card(
+                      height: height,
+                      cardDetails: card,
+            padding: cardPadding,
                     )
                   : const SizedBox.shrink())
               .toList(),
@@ -55,17 +65,17 @@ class HC1CardBuilder extends StatelessWidget {
   Widget buildIfNotScrollable() {
     return Container(
       height: height,
-      margin: const EdgeInsets.only(
-        top: 15,
-        bottom: 15,
-      ),
+      margin: cardMargin,
       child: Row(
-        children: cardDetails.sublist(0,2)
+        spacing: cardSpacing,
+        children: cardDetails
+            .sublist(0, 2)
             .map((card) => card != null
                 ? Expanded(
                     child: HC1Card(
                       height: height,
                       cardDetails: card,
+                      padding: cardPadding,
                     ),
                   )
                 : const SizedBox.shrink())
@@ -79,53 +89,28 @@ class HC1CardBuilder extends StatelessWidget {
 class HC1Card extends StatelessWidget {
   final CardModel cardDetails;
   final double height;
+  final EdgeInsets padding;
 
-  const HC1Card({super.key, required this.cardDetails, required this.height});
+  const HC1Card({super.key, required this.cardDetails, required this.height, required this.padding});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: height,
-      margin: const EdgeInsets.only(
-        left: 8,
-        right: 8,
-      ),
-      padding: const EdgeInsets.symmetric(
-        vertical: 12,
-        horizontal: 15,
-      ),
+      padding: padding,
       decoration: BoxDecoration(
         color: cardDetails.getBackgroundColor,
         borderRadius: BorderRadius.circular(8),
       ),
-      child: InkWell(
+      child: GestureDetector(
           onTap: () async {
-            if (cardDetails.url == null) {
-              return;
-            }
-            try {
-              Uri uri = Uri.parse(cardDetails.url ?? "");
-              if (await canLaunchUrl(uri)) {
-                launchUrl(uri);
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Could not launch ${uri.toString()}'),
-                  ),
-                );
-              }
-            } catch (e) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Could not launch ${cardDetails.url}'),
-                ),
-              );
-            }
+            launchHyperlink(cardDetails.url, context);
           },
           child: Padding(
             padding: const EdgeInsets.only(right: 8),
             child: Row(
               spacing: 14,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 cardDetails.icon != null
                     ? cardDetails.getIcon(isDecorationImage: false) as Widget

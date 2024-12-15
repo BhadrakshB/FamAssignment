@@ -20,13 +20,13 @@ class CardGroupWidget extends StatelessWidget {
         final CardGroup card = cards[index];
 
         switch (card.designType) {
-          case 'HC1':
-            return HC1CardBuilder(
-              cardDetails: card.cards,
-              height: card.height!.toDouble(),
-              isFullWidth: card.isFullWidth!,
-              isScrollable: card.isScrollable!,
-            );
+          // case 'HC1':
+          //   return HC1CardBuilder(
+          //     cardDetails: card.cards,
+          //     height: card.height!.toDouble(),
+          //     isFullWidth: card.isFullWidth!,
+          //     isScrollable: card.isScrollable!,
+          //   );
           // case 'HC3':
           //   return HC3Card(
           //     cardDetails: card.cards[0]!,
@@ -34,12 +34,13 @@ class CardGroupWidget extends StatelessWidget {
           //     isFullWidth: card.isFullWidth!,
           //     isScrollable: card.isScrollable!,
           //   );
-          // case 'HC5':
-          //   return HC5Card(
-          //     cardDetails: card.cards[0]!,
-          //     isFullWidth: card.isFullWidth!,
-          //     isScrollable: card.isScrollable!,
-          //   );
+          case 'HC5':
+            return HC5CardBuilder(
+              cardDetails: card.cards,
+              height: card.height?.toDouble(),
+              isFullWidth: card.isFullWidth!,
+              isScrollable: card.isScrollable!,
+            );
           // case 'HC6':
           //   return HC6Card(
           //     cardDetails: card.cards[0]!,
