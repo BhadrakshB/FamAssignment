@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 import '../../api/models/card_model.dart';
 import '../../utils/funtions.dart';
 
@@ -49,12 +47,15 @@ class HC1CardBuilder extends StatelessWidget {
         child: Row(
           children: cardDetails
               .map((card) => card != null
-                  ? HC1Card(
-                      height: height,
-                      cardDetails: card,
-                      padding: cardPadding,
-                      isScrollable: true,
-                    )
+                  ? SizedBox(
+                      width: isFullWidth ? MediaQuery.of(context).size.width : null,
+                    child: HC1Card(
+                        height: height,
+                        cardDetails: card,
+                        padding: cardPadding,
+                        isScrollable: true,
+                      ),
+                  )
                   : const SizedBox.shrink())
               .toList(),
         ),
