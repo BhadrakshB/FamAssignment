@@ -20,7 +20,6 @@ class HC9CardBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return buildScrollable(context);
-
   }
 
   Widget buildScrollable(BuildContext context) {
@@ -40,7 +39,7 @@ class HC9CardBuilder extends StatelessWidget {
             ),
           )
               : const SizedBox.shrink())
-              .toList()..insert(0, SizedBox(width: 21))..insert(cardDetails.length + 1 , SizedBox(width: 21)),
+              .toList()..insert(0, SizedBox(width: 0))..insert(cardDetails.length + 1 , SizedBox(width: 21)),
         ),
       ),
     );

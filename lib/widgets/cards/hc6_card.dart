@@ -18,30 +18,35 @@ class HC6Card extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: Container(
-        height: height,
-        decoration: BoxDecoration(
-          color: cardDetails.getBackgroundColor,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+        child: Container(
+          height: height,
 
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3),
-          child: Row(
-            children: [
-              if (cardDetails.icon != null)
-                Padding(
-                  padding: const EdgeInsets.only(right: 10.0),
-                  child: AspectRatio(aspectRatio: cardDetails.icon!.aspectRatio?.toDouble() ?? 1 ,child: cardDetails.getIcon(isDecorationImage:false) as Widget)
+          decoration: BoxDecoration(
+            color: cardDetails.getBackgroundColor,
+            borderRadius: BorderRadius.circular(10),
+
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3),
+            child: Row(
+              children: [
+                if (cardDetails.icon != null)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: AspectRatio(aspectRatio: cardDetails.icon!.aspectRatio?.toDouble() ?? 1 ,child: cardDetails.getIcon(isDecorationImage:false) as Widget)
+                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RichText(text: cardDetails.formattedTitle!.generateSpans()),
+                  ],
                 ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  RichText(text: cardDetails.formattedTitle!.generateSpans()),
-                ],
-              ),
-            ],
-          )
+              ],
+            )
+          ),
         ),
       ),
     );

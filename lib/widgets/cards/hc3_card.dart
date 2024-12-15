@@ -20,64 +20,69 @@ class HC3Card extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: Container(
-        height: height,
-        decoration: BoxDecoration(
-          color: cardDetails.getBackgroundColor,
-          image: DecorationImage(
-              image: cardDetails.backgroundImage!.getImage() as ImageProvider<Object>),
-        ),
+
+      child: AspectRatio(
+        aspectRatio: cardDetails.backgroundImage?.aspectRatio?.toDouble() ?? 16 / 9,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 33.0, vertical: 91),
-          child: Column(
-            crossAxisAlignment:
-                cardDetails.formattedTitle?.getCrossAxisAlignment ?? CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              RichText(text: cardDetails.formattedTitle!.generateSpans()),
-              const SizedBox(height: 50),
-              ...?cardDetails.callToAction?.map((cta) {
-                return ElevatedButton(
-                  onPressed: () async {
-                    try {
-                      Uri uri = Uri.parse(cardDetails.url ?? "");
-                      if (await canLaunchUrl(uri)) {
-                        launchUrl(uri);
-                      } else {
+          padding: const EdgeInsets.all(10),
+          child: Container(
+            height: height,
+            padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 25),
+            decoration: BoxDecoration(
+              color: cardDetails.getBackgroundColor,
+              image: DecorationImage(
+                  image: cardDetails.backgroundImage!.getImage() as ImageProvider<Object>),
+            ),
+            child: Column(
+              crossAxisAlignment:
+                  cardDetails.formattedTitle?.getCrossAxisAlignment ?? CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                RichText(text: cardDetails.formattedTitle!.generateSpans()),
+                const SizedBox(height: 50),
+                ...?cardDetails.callToAction?.map((cta) {
+                  return ElevatedButton(
+                    onPressed: () async {
+                      try {
+                        Uri uri = Uri.parse(cardDetails.url ?? "");
+                        if (await canLaunchUrl(uri)) {
+                          launchUrl(uri);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Could not launch ${uri.toString()}'),
+                            ),
+                          );
+                        }
+                      } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Could not launch ${uri.toString()}'),
+                            content: Text('Could not launch ${cardDetails.url}'),
                           ),
                         );
                       }
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Could not launch ${cardDetails.url}'),
-                        ),
-                      );
-                    }
-                  },
-                  style: ButtonStyle(
-                    padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                        const EdgeInsets.symmetric(horizontal: 50, vertical: 15)),
-                    shape: cta?.isCircular ?? false
-                        ? WidgetStateProperty.all<OutlinedBorder>(CircleBorder(
-                            side: BorderSide(width: cta?.strokeWidth!.toDouble() ?? 1),
-                          ))
-                        : WidgetStateProperty.all<OutlinedBorder>(const RoundedRectangleBorder(
-                            side: BorderSide(width: 1),
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                          )),
-                    backgroundColor: WidgetStateProperty.all<Color>(cta?.getColor ?? Colors.white),
-                  ),
-                  child: Text(
-                    cta!.text!,
-                    style: const TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                );
-              }),
-            ],
+                    },
+                    style: ButtonStyle(
+                      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+                          const EdgeInsets.symmetric(horizontal: 50, vertical: 15)),
+                      shape: cta?.isCircular ?? false
+                          ? WidgetStateProperty.all<OutlinedBorder>(CircleBorder(
+                              side: BorderSide(width: cta?.strokeWidth!.toDouble() ?? 1),
+                            ))
+                          : WidgetStateProperty.all<OutlinedBorder>(const RoundedRectangleBorder(
+                              side: BorderSide(width: 1),
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                            )),
+                      backgroundColor: WidgetStateProperty.all<Color>(cta?.getColor ?? Colors.white),
+                    ),
+                    child: Text(
+                      cta!.text!,
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                  );
+                }),
+              ],
+            ),
           ),
         ),
       ),

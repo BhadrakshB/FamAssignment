@@ -16,22 +16,25 @@ class HC5Card extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: AspectRatio(
-        aspectRatio: cardDetails.backgroundImage?.aspectRatio?.toDouble() ?? 16/9,
-        child: Container(
-          decoration: BoxDecoration(
-            color: cardDetails.getBackgroundColor,
-            image: DecorationImage(image: cardDetails.backgroundImage!.getImage() as ImageProvider<Object>, fit: BoxFit.cover),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8,),
+        child: AspectRatio(
+          aspectRatio: cardDetails.backgroundImage?.aspectRatio?.toDouble() ?? 16/9,
+          child: Container(
+            decoration: BoxDecoration(
+              color: cardDetails.getBackgroundColor,
+              image: DecorationImage(image: cardDetails.backgroundImage!.getImage() as ImageProvider<Object>, fit: BoxFit.cover),
+            ),
+            child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3),
+                child: Column(
+                  crossAxisAlignment: cardDetails.formattedTitle?.getCrossAxisAlignment ?? CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RichText(text: cardDetails.formattedTitle!.generateSpans()),
+                  ],
+                )),
           ),
-          child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3),
-              child: Column(
-                crossAxisAlignment: cardDetails.formattedTitle?.getCrossAxisAlignment ?? CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  RichText(text: cardDetails.formattedTitle!.generateSpans()),
-                ],
-              )),
         ),
       ),
     );
