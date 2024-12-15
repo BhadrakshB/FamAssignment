@@ -1,3 +1,4 @@
+import 'package:fam_assignment/utils/storage_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -23,4 +24,8 @@ void launchHyperlink(String? url, BuildContext context) async {
       ),
     );
   }
+}
+
+void checkStorage() async {
+  StorageUtil.removeAllRemindLater();
 }

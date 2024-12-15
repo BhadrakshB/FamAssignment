@@ -1,15 +1,21 @@
+import 'package:fam_assignment/utils/funtions.dart';
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  checkStorage();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+
+
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: 'Contextual Cards',
       theme: ThemeData(

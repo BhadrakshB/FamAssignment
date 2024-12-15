@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
 import '../api/models/card_group.dart';
 import '../api/models/screen_card.dart';
+import '../utils/storage_utils.dart';
 import 'cards/hc1_card.dart';
 import 'cards/hc3_card.dart';
 import 'cards/hc5_card.dart';
 import 'cards/hc6_card.dart';
 import 'cards/hc9_card.dart';
 
-class CardGroupWidget extends StatelessWidget {
+class CardGroupWidget extends StatefulWidget {
   final List cards;
 
   CardGroupWidget({required this.cards});
 
   @override
+  State<CardGroupWidget> createState() => _CardGroupWidgetState();
+}
+
+class _CardGroupWidgetState extends State<CardGroupWidget> {
+  @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: cards.length,
+      shrinkWrap: true,
+      itemCount: widget.cards.length,
       itemBuilder: (context, index) {
-        final CardGroup card = cards[index];
-
+        final CardGroup card = widget.cards[index];
         switch (card.designType) {
           case 'HC1':
             return HC1CardBuilder(
@@ -27,13 +33,38 @@ class CardGroupWidget extends StatelessWidget {
               isFullWidth: card.isFullWidth!,
               isScrollable: card.isScrollable!,
             );
-          // case 'HC3':
-          //   return HC3Card(
-          //     cardDetails: card.cards[0]!,
-          //     height: card.height?.toDouble(),
-          //     isFullWidth: card.isFullWidth!,
-          //     isScrollable: card.isScrollable!,
-          //   );
+          case 'HC3':
+            return HC3CardBuilder(
+              cardDetails: card.cards,
+              height: card.height?.toDouble(),
+              isFullWidth: card.isFullWidth!,
+              isScrollable: card.isScrollable!,
+              dismissCard: (localCardId) async {
+                await StorageUtil.saveDismissCard(
+                  card.id.toString(),
+                  localCardId.toString(),
+                );
+
+                setState(() {
+                  card.cards.removeWhere((element) {
+                    return element?.id == localCardId;
+                  });
+                });
+              },
+              remindLater: (localCardId) async {
+                await StorageUtil.saveRemindLater(
+                  card.id.toString(),
+                  localCardId.toString(),
+                );
+
+                setState(() {
+                  card.cards.removeWhere((element) {
+                    return element?.id == localCardId;
+                  });
+                });
+              },
+              cardGroupId: card.id,
+            );
           case 'HC5':
             return HC5CardBuilder(
               cardDetails: card.cards,

@@ -12,7 +12,6 @@ class BackgroundGradientModel {
   });
 
   factory BackgroundGradientModel.fromJson(Map<String, dynamic>? json) {
-    // print("JSON BACKGROUND GRADIENT MODEL: -${json?['colors']}-");
     return BackgroundGradientModel(
       angle: json?['angle'] ?? 0.0,
       colors: json?['colors']?.cast<String?>(),

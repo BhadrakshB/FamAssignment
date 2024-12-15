@@ -72,7 +72,6 @@ class HC9Card extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("CARD DETAILS: ${cardDetails.backgroundImage?.aspectRatio?.toDouble() ?? 1.0}");
     return AspectRatio(
       aspectRatio: cardDetails.backgroundImage?.aspectRatio?.toDouble() ?? 1.0,
       child: Container(

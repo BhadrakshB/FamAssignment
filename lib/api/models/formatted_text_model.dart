@@ -83,9 +83,6 @@ class FormattedTextModel {
               child: SizedBox(
             height: 70,
           )));
-
-          print("REPLACEMENT: $replacement -- STYLE: $style");
-
           spans.add(TextSpan(
             text: replacement,
             style: style,
@@ -103,15 +100,7 @@ class FormattedTextModel {
         return ''; // No actual text is added here
       },
     );
-
-    print(spans.length);
-    print(spans);
-
     spans.removeWhere((element) => element.toPlainText() == " " || element.toPlainText() == "");
-
-    print(spans.length);
-    print(spans);
-
     return TextSpan(children: spans);
   }
 

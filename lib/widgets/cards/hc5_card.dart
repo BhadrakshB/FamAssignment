@@ -116,8 +116,7 @@ class HC5Card extends StatelessWidget {
         decoration: BoxDecoration(
           color: cardDetails.getBackgroundColor,
           image: DecorationImage(
-              image: cardDetails.backgroundImage!.getImage() as ImageProvider<Object>,
-              fit: BoxFit.cover),
+              image: cardDetails.backgroundImage!.getImage() as ImageProvider<Object>),
         ),
         child: AspectRatio(
           aspectRatio: cardDetails.backgroundImage?.aspectRatio?.toDouble() ?? 16 / 9,

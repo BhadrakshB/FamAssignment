@@ -26,7 +26,6 @@ class CardGroup {
   });
 
   factory CardGroup.fromJson(Map<String, dynamic>? json) {
-    // print("JSON CARD GROUP: ${json?.keys}");
     return CardGroup(
       id: json?['id'],
       name: json?['name'],

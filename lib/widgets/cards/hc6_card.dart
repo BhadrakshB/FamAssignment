@@ -31,7 +31,6 @@ class HC6CardBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("Height: $height");
     if (isScrollable) {
       return buildIfScrollable(context);
     } else {

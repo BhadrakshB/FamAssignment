@@ -25,7 +25,6 @@ class _ApiClient implements ApiClient {
 
   @override
   Future<List<ScreenCard>> getContextualCards() async {
-    print('Get Contextual Cards');
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -46,19 +45,15 @@ class _ApiClient implements ApiClient {
           _dio.options.baseUrl,
           baseUrl,
         )));
-    print('Options: $_options');
 
     final _result = await _dio.fetch<List<dynamic>>(_options);
-    print("TYPE: ${_result.data!.map((dynamic i) => print("I $i"))}");
     List<ScreenCard> _value;
     try {
       _value = _result.data!
           .map((dynamic i) => ScreenCard.fromJson(i as Map<String, dynamic>))
           .toList();
-      print('Value: $_value');
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
-      print('Error: $e');
       rethrow;
     }
     return _value;

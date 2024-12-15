@@ -43,7 +43,6 @@ class EntityModel {
   }
 
   FontWeight get getFontFamily {
-    print("FONT FAMILY: $fontFamily");
     switch (fontFamily) {
       case 'met_bold':
         return FontWeight.w900;
