@@ -67,7 +67,7 @@ class _HC3CardBuilderState extends State<HC3CardBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    if (!widget.isScrollable) {
+    if (widget.isScrollable) {
       return buildIfScrollable(context);
     } else {
       return buildIfNotScrollable();
@@ -80,7 +80,6 @@ class _HC3CardBuilderState extends State<HC3CardBuilder> {
       return const SizedBox.shrink();
     }
     return Container(
-      height: widget.height,
       margin: widget.cardMargin.copyWith(left: 0, right: 0),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -115,12 +114,11 @@ class _HC3CardBuilderState extends State<HC3CardBuilder> {
   }
 
   Widget buildIfNotScrollable() {
-    // cardDetails.insert(0, cardDetails.elementAt(0)); : TO CHECK FOR SCROLLABILITY IF NEEDED
+    // widget.cardDetails.insert(0, widget.cardDetails.elementAt(0)); // : TO CHECK FOR SCROLLABILITY IF NEEDED
     if (widget.cardDetails.isEmpty) {
       return const SizedBox.shrink();
     }
     return Container(
-      height: widget.height,
       margin: widget.cardMargin.copyWith(right: 10),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -296,7 +294,11 @@ class _HC3CardState extends State<HC3Card> with SingleTickerProviderStateMixin {
                       ],
                     ),
                   ),
-                  SizedBox(width: MediaQuery.of(context).size.width * 0.9),
+                  SizedBox(
+                    width: widget.isScrollable
+                        ? MediaQuery.of(context).size.width * 0.9
+                        : MediaQuery.of(context).size.width * 0.65,
+                  ),
                 ],
               ),
             ),
@@ -322,7 +324,11 @@ class _HC3CardState extends State<HC3Card> with SingleTickerProviderStateMixin {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Flexible(
-                      child: RichText(text: widget.cardDetails.formattedTitle!.generateSpans())),
+                    child: RichText(
+                      text: widget.cardDetails.formattedTitle!.generateSpans(),
+                      softWrap: true,
+                    ),
+                  ),
                   const SizedBox(height: 50),
                   ...?widget.cardDetails.callToAction?.map((cta) {
                     return ElevatedButton(
