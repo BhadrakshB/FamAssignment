@@ -32,7 +32,7 @@ class HC5CardBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!isScrollable) {
+    if (isScrollable) {
       return buildIfScrollable(context);
     } else {
       return buildIfNotScrollable();

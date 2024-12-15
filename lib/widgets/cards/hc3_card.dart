@@ -67,7 +67,7 @@ class _HC3CardBuilderState extends State<HC3CardBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    if (!widget.isScrollable) {
+    if (widget.isScrollable) {
       return buildIfScrollable(context);
     } else {
       return buildIfNotScrollable();
