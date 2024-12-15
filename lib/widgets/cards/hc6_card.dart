@@ -143,22 +143,45 @@ class HC6Card extends StatelessWidget {
                               maxLines: 1,
                             )
                           : const SizedBox.shrink(),
-                      cardDetails.formattedDescription?.text != null
-                          ? const SizedBox(height: 5)
-                          : const SizedBox.shrink(),
-                      cardDetails.formattedDescription?.text != null
-                          ? RichText(
-                              text: cardDetails.formattedDescription!.generateSpans(),
-                              softWrap: false,
-                              overflow: TextOverflow.clip,
-                              maxLines: 1,
-                            )
-                          : const SizedBox.shrink(),
+                      if (cardDetails.formattedDescription?.text != null) ...[
+                        const SizedBox(height: 8),
+                        RichText(
+                          text: cardDetails.formattedDescription!.generateSpans(),
+                          softWrap: false,
+                          overflow: TextOverflow.clip,
+                          maxLines: 1,
+                        )
+                      ],
+                      ...?cardDetails.callToAction?.map((cta) {
+                        return ElevatedButton(
+                          onPressed: () async {
+                            launchHyperlink(cardDetails.url, context);
+                          },
+                          style: ButtonStyle(
+                            padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+                                const EdgeInsets.symmetric(horizontal: 50, vertical: 15)),
+                            shape: cta?.isCircular ?? false
+                                ? WidgetStateProperty.all<OutlinedBorder>(CircleBorder(
+                                    side: BorderSide(width: cta?.strokeWidth!.toDouble() ?? 1),
+                                  ))
+                                : WidgetStateProperty.all<OutlinedBorder>(
+                                    const RoundedRectangleBorder(
+                                    side: BorderSide(width: 1),
+                                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  )),
+                            backgroundColor:
+                                WidgetStateProperty.all<Color>(cta?.getColor ?? Colors.white),
+                          ),
+                          child: Text(
+                            cta!.text!,
+                            style: const TextStyle(color: Colors.white, fontSize: 16),
+                          ),
+                        );
+                      }),
                     ],
                   ),
                 ),
-                // Spacer(),
-                Icon(Icons.arrow_forward_ios),
+                const Icon(Icons.arrow_forward_ios),
               ],
             )),
       ),
