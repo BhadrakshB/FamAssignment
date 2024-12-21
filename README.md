@@ -152,11 +152,12 @@ The project is organized into several key files:
 
 
 https://github.com/user-attachments/assets/dea737f3-60bb-48dd-ab3c-646a6c50c22c
-
-
   
 Each file contains comments explaining its purpose and functionality.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
+**No change in iOS dependencies made because of a lack of iOS development environment.**
